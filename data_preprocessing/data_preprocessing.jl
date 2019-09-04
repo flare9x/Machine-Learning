@@ -30,7 +30,6 @@ function standardization(x::Array{T})::Array{T} where {T<:Real}
     let out = fill(NaN, size(x,1)), avg = mean(x), stdev = std(x)
     @inbounds for i = 1:size(x,1)
         out[i] = (x[i] - avg) / stdev
-        print(i)
 end
     return out
 end
@@ -47,7 +46,6 @@ function normalization(x::Array{T})::Array{T} where {T<:Real}
     let out = fill(NaN, size(x,1)), min = minimum(x), max = maximum(x)
     @inbounds for i = 1:size(x,1)
         out[i] = ((x[i] - min) / (max - min))
-        print(i)
 end
     return out
 end
