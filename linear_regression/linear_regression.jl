@@ -53,3 +53,32 @@ plot_annotation = "y = ",round(b0,digits=2)," + (",round(b1,digits=2)," * x)"
 annotate!(-.5, 1.0, text(plot_annotation, :red, :left, 10))
 test_set_residuals = y .- y_hat_test
 r_2 = cor(x,y) ^2
+
+"""
+```
+lin_reg_ols(x_train::Array{T},y_train::Array{T},x_test::Array{T},y_test::Array{T})
+```
+Train the regression model on training data - derive coefficients b0 and b1
+Apply training coefficients on test set data:: y_hat_test = b0 .+ (b1 .* x_test)
+"""
+function lin_reg_ols(x_train::Array{T},y_train::Array{T},x_test::Array{T},y_test::Array{T})::Array{T} where {T<:Real}
+    let y_hat_train = size(x_train,1), y_hat_test = size(x_test,1)
+    b1 = cov(x_train,y_train) / var(x_train) # b (slope)
+    b0 = mean(y_train) - b1 * mean(x_train) # a (intercept)
+    coefficients = b1,b0
+    y_hat_train = b0 .+ (b1 .* x_train)
+    # Test set
+    y_hat_test = b0 .+ (b1 .* x_test)
+    return y_hat_test
+end
+end
+
+# Test function 
+x_train = Float64.(train_set[:YearsExperience])
+y_train= Float64.(train_set[:Salary])
+x_test = Float64.(test_set[:YearsExperience])
+y_test= Float64.(test_set[:Salary])
+
+test_predictions = lin_reg_ols(x_train,y_train,x_test,y_test)
+test_set_residuals = y_test .- test_predictions
+r_2 = cor(x_test,y_test) ^2
