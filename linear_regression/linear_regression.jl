@@ -42,6 +42,8 @@ plot_annotation = "y = ",round(b0,digits=2)," + (",round(b1,digits=2)," * x)"
 annotate!(-.5, 1.0, text(plot_annotation, :red, :left, 10))
 training_set_residuals = y .- y_hat_train
 r_2 = cor(x,y) ^2
+n = size(train_set,1)
+standard_error = sqrt((sum(y_hat_train .- y)^2) / (n-2))
 
 # Using the same regression coefficients found on training data - plot the regression line on unseen test data
 x = Float64.(test_set[:YearsExperience])
@@ -54,6 +56,8 @@ plot_annotation = "y = ",round(b0,digits=2)," + (",round(b1,digits=2)," * x)"
 annotate!(-.5, 1.0, text(plot_annotation, :red, :left, 10))
 test_set_residuals = y .- y_hat_test
 r_2 = cor(x,y) ^2
+n = size(test_set,1)
+standard_error = sqrt((sum(y_hat_test .- y)^2) / (n-2))
 
 """
 ```
