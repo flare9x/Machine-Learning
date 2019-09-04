@@ -30,12 +30,13 @@ plot(train_set[:YearsExperience],train_set[:Salary],seriestype=:scatter,title="M
 x = Float64.(train_set[:YearsExperience])
 y = Float64.(train_set[:Salary])
 
+# Regression coefficients (y = b0 .+ (b1 .* x))
 b1 = cov(x,y) / var(x) # b (slope)
 b0 = mean(y) - b1 * mean(x) # a (intercept)
 
 # Apply the regression formula to the training data
 y_hat_train = fill(0.0,size(train_set,1)) # initialize array
-y_hat_train .= b0 .+ (b1 .* x)
+y_hat_train = b0 .+ (b1 .* x)
 plot!(train_set[:YearsExperience],y_hat_train, smooth=true)
 plot_annotation = "y = ",round(b0,digits=2)," + (",round(b1,digits=2)," * x)"
 annotate!(-.5, 1.0, text(plot_annotation, :red, :left, 10))
@@ -46,7 +47,7 @@ r_2 = cor(x,y) ^2
 x = Float64.(test_set[:YearsExperience])
 y = Float64.(test_set[:Salary])
 y_hat_test = fill(0.0,size(test_set,1))
-y_hat_test .= b0 .+ (b1 .* x)
+y_hat_test = b0 .+ (b1 .* x)
 plot(test_set[:YearsExperience],test_set[:Salary],seriestype=:scatter,title="My Scatter Plot (Test Data)")
 plot!(test_set[:YearsExperience],y_hat_test, smooth=true)
 plot_annotation = "y = ",round(b0,digits=2)," + (",round(b1,digits=2)," * x)"
@@ -73,7 +74,7 @@ function lin_reg_ols(x_train::Array{T},y_train::Array{T},x_test::Array{T},y_test
 end
 end
 
-# Test function 
+# Test function
 x_train = Float64.(train_set[:YearsExperience])
 y_train= Float64.(train_set[:Salary])
 x_test = Float64.(test_set[:YearsExperience])
