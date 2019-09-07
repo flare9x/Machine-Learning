@@ -5,6 +5,7 @@ using Statistics
 using Missings
 using Plots
 using StatsBase
+using HypothesisTests
 
 # Read data
 dataset = CSV.read("C:/Users/Andrew.Bannerman/Desktop/Machine Learning/Machine-Learning/Machine-Learning/linear_regression/Salary_Data.csv", header=true, types=[Float64, Float64])
@@ -87,3 +88,6 @@ y_test= Float64.(test_set[:Salary])
 test_predictions = lin_reg_ols(x_train,y_train,x_test,y_test)
 test_set_residuals = y_test .- test_predictions
 r_2 = cor(x_test,y_test) ^2
+
+# How to calculate the p-value
+# https://www.wikihow.com/Calculate-P-Value
